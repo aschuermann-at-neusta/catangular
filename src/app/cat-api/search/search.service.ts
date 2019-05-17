@@ -17,7 +17,7 @@ export class SearchService {
     }
 
     set catsLoaded(value: CatConfigInterface) {
-        console.log('SET catsloaded:', value);
+
         this._catsLoaded = value;
     }
 
@@ -26,23 +26,25 @@ export class SearchService {
     }
 
     loadCats(cat: CatConfigInterface): void {
-        console.log('loadCats with cat:', cat);
+
+
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
 
         this.subscription = this.httpClient.get<Cat[]>(`https://api.thecatapi.com/v1/images/search` + this.getParams(cat)).subscribe((cats: Cat[]) => {
+
             this._catSearchResultSubject.next(cats);
-            console.log('catsLoaded set to:', cat);
+
             this.catsLoaded = cat;
         });
 
     }
 
     getParams(cat: CatConfigInterface) {
-        console.log('getParams with cat:', cat);
 
-        let params: string[] = [];
+
+        const params: string[] = [];
 
         Object.keys(cat).forEach((param) => {
             if (cat[ param ] != null) {
@@ -54,11 +56,13 @@ export class SearchService {
     }
 
     getCatsByConfig(cat: CatConfigInterface): Observable<Cat[]> {
-        console.log('getCatsByConfig catsLoaded:', JSON.stringify(this.catsLoaded));
-        console.log('getCatsByConfig cat:', JSON.stringify(cat));
+
+
         if (JSON.stringify(this.catsLoaded) !== JSON.stringify(cat)) {
-            this.loadCats(cat);
+
             this._catSearchResultSubject = new ReplaySubject<Cat[]>(1);
+            this.loadCats(cat);
+
         }
 
         return this._catSearchResultSubject.asObservable().pipe(take(1));
