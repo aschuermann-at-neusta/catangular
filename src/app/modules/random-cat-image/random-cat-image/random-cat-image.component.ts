@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CatBreed } from '../../../cat-api/breed/cat-breed';
 import { CatConfigInterface } from '../../../cat-api/search/cat-config.interface';
 import { SearchService } from '../../../cat-api/search/search.service';
 
@@ -24,5 +25,11 @@ export class RandomCatImageComponent {
 
     onClickedBreed(breed: string) {
         this.catConfig.breed_id = breed;
+    }
+
+    getBreeds(): CatBreed[] {
+        const mockAllBreeds: CatBreed = { id: null, name: 'Alle Katzen' };
+        const mockAbys: CatBreed = { id: 'abys', name: 'Abyssiner' };
+        return [ mockAllBreeds, mockAbys];
     }
 }

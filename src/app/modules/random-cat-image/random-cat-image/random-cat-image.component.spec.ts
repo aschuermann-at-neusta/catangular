@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { CatBreed } from '../../../cat-api/breed/cat-breed';
 import { Cat } from '../../../cat-api/cat';
 import { SearchService } from '../../../cat-api/search/search.service';
 import { RandomCatImageComponent } from './random-cat-image.component';
@@ -75,7 +76,13 @@ describe('RandomCatImageComponent', () => {
         }));
     });
 
-
+    describe('getBreeds', () => {
+        it('should return array of cat breeds', () => {
+            const mockAllBreeds: CatBreed = { id: null, name: 'Alle Katzen' };
+            const mockAbys: CatBreed = { id: 'abys', name: 'Abyssiner' };
+            expect(component.getBreeds()).toEqual([ mockAllBreeds, mockAbys ]);
+        });
+    });
     describe('onClickedBreed', () => {
         it('should set local variable from event', () => {
             component.onClickedBreed('cat');
