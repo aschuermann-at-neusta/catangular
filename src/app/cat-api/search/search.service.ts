@@ -17,7 +17,6 @@ export class SearchService {
     }
 
     set catsLoaded(value: CatConfigInterface) {
-        console.log('SET catsloaded:', value);
         this._catsLoaded = value;
     }
 
@@ -25,42 +24,42 @@ export class SearchService {
         return this._catsLoaded;
     }
 
-    loadCats(cat: CatConfigInterface): void {
-        console.log('loadCats with cat:', cat);
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
 
-        this.subscription = this.httpClient.get<Cat[]>(`https://api.thecatapi.com/v1/images/search` + this.getParams(cat)).subscribe((cats: Cat[]) => {
-            this._catSearchResultSubject.next(cats);
-            console.log('catsLoaded set to:', cat);
-            this.catsLoaded = cat;
-        });
-
-    }
-
-    getParams(cat: CatConfigInterface) {
-        console.log('getParams with cat:', cat);
-
-        let params: string[] = [];
-
-        Object.keys(cat).forEach((param) => {
-            if (cat[ param ] != null) {
-                params.push(param + '=' + cat[ param ]);
-            }
-        });
-
-        return params.length > 0 ? '?' + params.join('&') : '';
-    }
-
-    getCatsByConfig(cat: CatConfigInterface): Observable<Cat[]> {
-        console.log('getCatsByConfig catsLoaded:', JSON.stringify(this.catsLoaded));
-        console.log('getCatsByConfig cat:', JSON.stringify(cat));
-        if (JSON.stringify(this.catsLoaded) !== JSON.stringify(cat)) {
-            this.loadCats(cat);
+    getCatsByConfig(catConfig: CatConfigInterface): Observable<Cat[]> {
+        if (JSON.stringify(this.catsLoaded) !== JSON.stringify(catConfig)) {
+            this.loadCats(catConfig);
             this._catSearchResultSubject = new ReplaySubject<Cat[]>(1);
         }
 
         return this._catSearchResultSubject.asObservable().pipe(take(1));
+    }
+
+    loadCats(catConfig: CatConfigInterface): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+
+        this.subscription = this.httpClient.get<Cat[]>(this.getUrl(catConfig)).subscribe((cats: Cat[]) => {
+            this._catSearchResultSubject.next(cats);
+            this.catsLoaded = { ...catConfig }; // This was the problem since before we passed the object reference, not just the content
+        });
+
+    }
+
+    private getUrl(catConfig: CatConfigInterface) {
+        return `https://api.thecatapi.com/v1/images/search` + this.getParams(catConfig);
+    }
+    private getParams(catConfig: CatConfigInterface) {
+        console.log('getParams with catConfig:', catConfig);
+
+        const params: string[] = [];
+
+        Object.keys(catConfig).forEach((param) => {
+            if (catConfig[ param ] != null) {
+                params.push(param + '=' + catConfig[ param ]);
+            }
+        });
+
+        return params.length > 0 ? '?' + params.join('&') : '';
     }
 }

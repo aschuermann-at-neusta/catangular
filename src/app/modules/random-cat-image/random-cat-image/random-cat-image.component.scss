@@ -1,0 +1,15 @@
+.random-cat-images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding:20px;
+    border:2px solid #fc0;
+}
+
+.random-cat-images__image {
+    margin: auto;  /* Magic! */
+    max-width: 400px;
+    max-height: 400px;
+}

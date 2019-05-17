@@ -1,11 +1,14 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CatBreed } from '../../../cat-api/breed/cat-breed';
 
 import { BreedSelectionComponent } from './breed-selection.component';
 
 describe('BreedSelectionComponent', () => {
     let component: BreedSelectionComponent;
     let fixture: ComponentFixture<BreedSelectionComponent>;
-    let breeds: string[] = ["foo","boo"];
+    const mockAllBreeds: CatBreed = { id: null, name: null };
+    const mockAbys: CatBreed = { id: 'abys', name: 'Abyssiner' };
+    const breeds: CatBreed[] = [mockAllBreeds, mockAbys];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -37,10 +40,10 @@ describe('BreedSelectionComponent', () => {
             let hasSubscription = false;
             component.clickedBreed.subscribe(breed => {
                 hasSubscription = true;
-                expect(breed).toEqual('Siamesisches Kurzhaar')
+                expect(breed).toEqual(mockAbys.id);
             });
             tick();
-            component.click('Siamesisches Kurzhaar');
+            component.click(mockAbys);
             expect(hasSubscription).toBeTruthy();
         }));
     });

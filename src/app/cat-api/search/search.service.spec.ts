@@ -170,16 +170,6 @@ describe('CatApi > SearchService', () => {
 
     });
 
-    describe('getParams', () => {
-        it('should return valid params from empty object', () => {
-            expect(service.getParams({size: 'thumb'})).toEqual('?size=thumb');
-        });
-
-        it('should still work with first parameter of object being null', () => {
-            expect(service.getParams({breed_id: null, size: 'thumb'})).toEqual('?size=thumb');
-        });
-    });
-
     describe('funny error', () => {
         it('should not be null', fakeAsync(() => {
             service.getCatsByConfig({breed_id: 'a', size: 'thumb'}).subscribe((cats: Cat[]) => {
