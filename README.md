@@ -14,4 +14,3 @@ This Project is developed in a weekly Angular TDD Randori (@neusta), yet it welc
 4. [ ] Multiple Categories selectable
 5. [ ] Refresh Option
 6. [ ] Refresh Timer Live Configurable
-
