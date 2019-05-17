@@ -1,27 +1,17 @@
 # Catangular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
+Catangular aims to create a web component that displays a random cat image fetched from tehcatapi.com.
 
-## Development server
+Currently it is in development state and only ships a buggy website displaying the buggy component.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This Project is developed in a weekly Angular TDD Randori (@neusta), yet it welcomes pull requests from other contributers.
 
-## Code scaffolding
+## Feature Plan
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. [ ] Breed Selection provides all Breeds from CatApi
+2. [ ] Category Selection
+3. [ ] Category Selection provides all Categories from CatApi
+4. [ ] Multiple Categories selectable
+5. [ ] Refresh Option
+6. [ ] Refresh Timer Live Configurable
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
