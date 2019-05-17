@@ -1,3 +1,5 @@
-<app-breed-selection [breeds]="['abys']" (clickedBreed)="onClickedBreed($event)"></app-breed-selection>
-<img [src]="getRandomCatImage(catConfig) | async">
-<p>breed: {{catConfig.breed_id}}</p>
+<div class="random-cat-image">
+    <app-breed-selection [breeds]="['abys']" (clickedBreed)="onClickedBreed($event)"></app-breed-selection>
+    <img [src]="getRandomCatImage(catConfig) | async" class="random-cat-image__image">
+    <p>breed: {{catConfig.breed_id}}</p>
+</div>

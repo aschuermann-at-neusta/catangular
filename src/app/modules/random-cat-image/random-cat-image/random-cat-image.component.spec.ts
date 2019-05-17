@@ -3,7 +3,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { of } from 'rxjs';
 import { Cat } from '../../../cat-api/cat';
 import { SearchService } from '../../../cat-api/search/search.service';
-
 import { RandomCatImageComponent } from './random-cat-image.component';
 
 describe('RandomCatImageComponent', () => {
