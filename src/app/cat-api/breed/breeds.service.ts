@@ -8,7 +8,7 @@ import { CatBreedBe } from './cat-breed-be';
 })
 export class BreedsService {
 
-    apiBaseUrl: string = 'https://api.thecatapi.com/v1/';
+    apiBaseUrl = 'https://api.thecatapi.com/v1/';
 
     constructor(private httpClient: HttpClient) {
     }
