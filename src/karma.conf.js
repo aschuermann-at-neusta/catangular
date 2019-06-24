@@ -9,16 +9,13 @@ module.exports = function (config) {
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-mocha-reporter'),
-            require('karma-coverage-istanbul-reporter'),
             require('@angular-devkit/build-angular/plugins/karma')
         ],
-        client: {
-            clearContext: false // leave Jasmine Spec Runner output visible in browser
-        },
-        coverageIstanbulReporter: {
-            dir: require('path').join(__dirname, '../coverage'),
-            reports: ['html', 'lcovonly', 'text-summary'],
-            fixWebpackSourcePaths: true
+        nyc: {
+            branches: 80,
+            lines: 80,
+            functions: 80,
+            statements: 80
         },
         reporters: ['mocha'],
         port: 9876,

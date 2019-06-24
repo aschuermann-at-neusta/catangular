@@ -7,4 +7,8 @@ describe('AppComponent', () => {
     beforeEach(async(() => {
         component = new AppComponent();
     }));
+
+    it('should have one meaningless test', () => {
+        expect(component).toBeDefined();
+    });
 });
