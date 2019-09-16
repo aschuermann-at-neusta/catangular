@@ -1,3 +1,5 @@
-<p>
-  cat-random-image works!
-</p>
+<h3>Random Cat</h3>
+<app-cat-refresh-button (refreshClicked)="loadGetImage()"></app-cat-refresh-button>
+<app-refresh-timer-button (newInterval)="setAutoRefreshActive()"></app-refresh-timer-button>
+<img [src]="randomCatImage$ | async">
+

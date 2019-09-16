@@ -1,7 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CatImageModule } from './cat-image/cat-image.module';
 
 @NgModule({
     declarations: [
@@ -9,7 +11,9 @@ import { AppComponent } from './app.component';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        HttpClientModule,
+        AppRoutingModule,
+        CatImageModule
     ],
     bootstrap: [
         AppComponent

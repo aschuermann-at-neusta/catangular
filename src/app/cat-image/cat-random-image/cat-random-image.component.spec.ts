@@ -1,5 +1,6 @@
-import { Observable, of, Subject } from 'rxjs';
-import { anything, instance, mock, verify, when } from 'ts-mockito';
+import { fakeAsync, tick } from '@angular/core/testing';
+import { Subject } from 'rxjs';
+import { instance, mock, verify, when } from 'ts-mockito';
 import { CatInterface, CatPublicImageService } from '../../cat-api/cat-public-image.service';
 import { CatRandomImageComponent } from './cat-random-image.component';
 
@@ -29,6 +30,22 @@ describe('CatRandomImageComponent', () => {
             mockCatImageSubject.next(mockCat);
             verify(mockCatPublicImageService.getOneRandomImage()).once();
         });
+    });
 
+    describe('refresh image', () => {
+
+
+        it('should have a configuration', () => {
+          expect(component.config).toBeDefined();
+        });
+
+        it('should have autoRefreshActive value be false', () => {
+            expect(component.config.autoRefreshActive).toBe(false);
+        });
+
+        it('should have a function setAutoRefreshActive', () => {
+            component.setAutoRefreshActive();
+            expect(component.config.autoRefreshActive).toBe(true);
+        });
     });
 });
