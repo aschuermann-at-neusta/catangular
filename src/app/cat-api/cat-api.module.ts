@@ -1,15 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { SearchService } from './search/search.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        HttpClientModule
-    ],
-    providers: [
-        SearchService
-    ]
+  declarations: [],
+  imports: [
+    CommonModule
+  ]
 })
 export class CatApiModule { }

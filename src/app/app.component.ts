@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SearchService } from './cat-api/search/search.service';
 
 @Component({
     selector: 'app-root',
@@ -10,6 +7,6 @@ import { SearchService } from './cat-api/search/search.service';
 })
 export class AppComponent {
 
-    constructor(private searchService: SearchService){
+    constructor() {
     }
 }
