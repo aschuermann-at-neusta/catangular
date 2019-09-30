@@ -1,8 +1,7 @@
-import { fakeAsync, tick } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { instance, mock, verify, when } from 'ts-mockito';
+import { anything, instance, mock, verify, when } from 'ts-mockito';
 import { CatInterface, CatPublicImageService } from '../../cat-api/cat-public-image.service';
-import { IntervalService } from '../../interval/interval.service';
+import { AutoRefreshService } from '../../interval/auto-refresh.service';
 import { CatRandomImageComponent } from './cat-random-image.component';
 
 describe('CatRandomImageComponent', () => {
@@ -11,13 +10,16 @@ describe('CatRandomImageComponent', () => {
     const mockCatUrl = 'fdlkjgrdlfkgj';
     const mockCat: CatInterface = { url: mockCatUrl };
     const mockCatImageSubject: Subject<CatInterface> = new Subject<CatInterface>();
-    let mockIntervalService: IntervalService;
+    let mockAutoRefreshService: AutoRefreshService;
 
     beforeEach(() => {
         mockCatPublicImageService = mock(CatPublicImageService);
-        mockIntervalService = mock(IntervalService);
-        component = new CatRandomImageComponent(instance(mockCatPublicImageService), instance(mockIntervalService));
-        when(mockCatPublicImageService.getOneRandomImage()).thenReturn(mockCatImageSubject.asObservable());
+        mockAutoRefreshService = mock(AutoRefreshService);
+        component = new CatRandomImageComponent(
+            instance(mockCatPublicImageService),
+            instance(mockAutoRefreshService));
+        when(mockCatPublicImageService.getOneRandomImage())
+            .thenReturn(mockCatImageSubject.asObservable());
     });
 
     describe('random image', () => {
@@ -48,17 +50,7 @@ describe('CatRandomImageComponent', () => {
 
         it('should start the interval', () => {
             component.setAutoRefreshActive(1);
-            verify(mockIntervalService.setTime(1)).once();
-        });
-
-        it('should refresh image after interval timeout', () => {
-            const controlSubject: Subject<boolean> = new Subject<boolean>();
-            when(mockIntervalService.interval$).thenReturn(controlSubject.asObservable());
-
-            component.ngOnInit();
-            component.setAutoRefreshActive(1);
-            controlSubject.next(true);
-            verify(mockCatPublicImageService.getOneRandomImage()).twice();
+            verify(mockAutoRefreshService.setTime(1, anything())).once();
         });
     });
 });

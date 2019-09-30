@@ -31,9 +31,11 @@ describe('IntervalService', () => {
 
     it('should clear old handler if already exists', () => {
         let cleared = 0;
+        const backup = service.stopInterval;
         service.stopInterval = () =>  cleared++;
         service.setTime(1);
         service.setTime(2);
         expect(cleared).toBe(2);
+        service.stopInterval = backup;
     });
 });
