@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CatPublicImageService } from '../../cat-api/cat-public-image.service';
+import { IntervalService } from '../../interval/interval.service';
 import { CatConfigInterface } from './cat-config-interface';
 
 @Component({
@@ -12,14 +13,16 @@ import { CatConfigInterface } from './cat-config-interface';
 export class CatRandomImageComponent implements OnInit {
 
     randomCatImage$: Observable<string>;
-    config: CatConfigInterface = {
-        autoRefreshActive : false
-    };
+    config: BehaviorSubject<CatConfigInterface> = new BehaviorSubject({ autoRefreshActive: false });
+    config$: Observable<CatConfigInterface> = this.config.asObservable();
 
-    constructor(private publicRandomImgService: CatPublicImageService) {
+    constructor(private publicRandomImgService: CatPublicImageService, private intervalService: IntervalService) {
     }
 
     ngOnInit() {
+        this.intervalService.interval$.subscribe((_) => {
+            this.loadGetImage();
+        });
         this.loadGetImage();
     }
 
@@ -29,7 +32,8 @@ export class CatRandomImageComponent implements OnInit {
                 map(cat => cat.url));
     }
 
-    setAutoRefreshActive() {
-        this.config.autoRefreshActive = true;
+    setAutoRefreshActive(seconds: number) {
+        this.intervalService.setTime(seconds);
+        this.config.next({ autoRefreshActive: true });
     }
 }

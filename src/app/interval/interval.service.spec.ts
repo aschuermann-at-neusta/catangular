@@ -28,4 +28,12 @@ describe('IntervalService', () => {
         expect(control).toBe(true);
         service.stopInterval();
     }));
+
+    it('should clear old handler if already exists', () => {
+        let cleared = 0;
+        service.stopInterval = () =>  cleared++;
+        service.setTime(1);
+        service.setTime(2);
+        expect(cleared).toBe(2);
+    });
 });

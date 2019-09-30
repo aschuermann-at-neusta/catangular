@@ -2,23 +2,29 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class IntervalService {
 
-  constructor() { }
+    constructor() {
+    }
 
-  private interval: Subject<boolean> = new Subject<boolean>();
-  interval$: Observable<boolean> = this.interval.asObservable();
-    private handler: NodeJS.Timer;
+    private interval: Subject<boolean> = new Subject<boolean>();
+    interval$: Observable<boolean> = this.interval.asObservable();
 
+    handler: any;
 
     setTime(seconds: number) {
-      this.handler = setInterval(() => { this.interval.next(true); }, seconds * 1000);
+        this.stopInterval();
+        this.handler = setInterval(() => {
+            this.interval.next(true);
+        }, seconds * 1000);
     }
 
     stopInterval() {
-        clearInterval(this.handler);
+        if (this.handler) {
+            clearInterval(this.handler);
+        }
     }
 
 
