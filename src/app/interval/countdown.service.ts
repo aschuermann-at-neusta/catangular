@@ -8,11 +8,12 @@ export class CountdownService {
     private countdown: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     public count$: Observable<number> = this.countdown.asObservable();
     public handler;
-
+    private countdownLength: number;
     constructor() {
     }
 
     setCount(seconds: number) {
+        this.countdownLength = seconds;
         if (this.handler) {
             clearInterval(this.handler);
         }
@@ -37,5 +38,14 @@ export class CountdownService {
         if (this.countdown.value > 0) {
             this.countdown.next(this.countdown.value - 1);
         }
+    }
+
+    stopCount() {
+        clearInterval(this.handler);
+        this.countdown.next(0);
+    }
+
+    reset() {
+        this.countdown.next(this.countdownLength);
     }
 }

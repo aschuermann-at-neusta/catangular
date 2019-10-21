@@ -35,13 +35,17 @@ describe('CatRandomImageComponent', () => {
         });
     });
 
-    describe('refresh image', () => {
+    describe('config', () => {
         it('should have a configuration', async () => {
             const config = await component.config$.pipe(take(1)).toPromise();
             expect(config).toBeDefined();
         });
+    });
 
-        it('should have autoRefreshActive value be false', async () => {
+    describe('autorefresh', () => {
+        it('should deactivate autorefresh', async () => {
+            component.setAutoRefreshActive(12);
+            component.setAutoRefreshInactive();
             const config = await component.config$.pipe(take(1)).toPromise();
             expect(config.autoRefreshActive).toBe(false);
         });
@@ -52,11 +56,32 @@ describe('CatRandomImageComponent', () => {
             expect(config.autoRefreshActive).toBe(true);
         });
 
+        it('should have autoRefreshActive value be false', async () => {
+            const config = await component.config$.pipe(take(1)).toPromise();
+            expect(config.autoRefreshActive).toBe(false);
+        });
+
         it('should start the interval', () => {
             component.setAutoRefreshActive(1);
             verify(mockAutoRefreshService.setTime(1, anything())).once();
         });
 
+        it('should stop refreshing', () => {
+            component.setAutoRefreshInactive();
+            verify(mockAutoRefreshService.stopRefresh()).once();
+        });
+    });
 
+    describe('refresh', () => {
+        it('should reset the interval on refresh', () => {
+            component.setAutoRefreshActive(55);
+            component.refresh();
+            verify(mockAutoRefreshService.reset()).once();
+        });
+
+        it('should reset only if auto refresh is active', () => {
+            component.refresh();
+            verify(mockAutoRefreshService.reset()).never();
+        });
     });
 });

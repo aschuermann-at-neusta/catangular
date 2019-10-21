@@ -51,4 +51,32 @@ describe('AutoRefreshService', () => {
         controlSubject.next(true);
         verify(mockCountdownService.setCount(5)).twice();
     }));
+
+    it('should stop the interval', () => {
+        autoRefreshService.setTime(5, () => {
+        });
+        autoRefreshService.stopRefresh();
+        verify(mockIntervalService.stopInterval()).once();
+    });
+
+    it('should stop the countdown', () => {
+        autoRefreshService.setTime(5, () => {
+        });
+        autoRefreshService.stopRefresh();
+        verify(mockCountdownService.stopCount()).once();
+    });
+
+    it('should reset the countdown on reset', () => {
+        autoRefreshService.setTime(5, () => {
+        });
+        autoRefreshService.reset();
+        verify(mockCountdownService.reset()).once();
+    });
+
+    it('should reset the interval on reset', () => {
+        autoRefreshService.setTime(5, () => {
+        });
+        autoRefreshService.reset();
+        verify(mockIntervalService.reset()).once();
+    });
 });

@@ -37,4 +37,13 @@ export class CatRandomImageComponent implements OnInit {
         });
         this.config.next({ autoRefreshActive: true });
     }
+
+    setAutoRefreshInactive() {
+        this.autoRefreshService.stopRefresh();
+        this.config.next({ autoRefreshActive: false });
+    }
+
+    refresh() {
+        this.autoRefreshService.reset();
+    }
 }

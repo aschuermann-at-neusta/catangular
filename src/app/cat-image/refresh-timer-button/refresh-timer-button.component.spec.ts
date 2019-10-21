@@ -10,11 +10,20 @@ describe('RefreshTimerButtonComponent', () => {
     });
 
     describe('inform about refreh', () => {
-        it('should inform about new interval', () => {
-            component.setInterval(5);
+        it('should inform about new interval', (done) => {
             component.newInterval.subscribe((interval) => {
                 expect(interval).toEqual(5);
+                done();
             });
+            component.setInterval(5);
+        });
+    });
+    describe('stop interval', () => {
+        it('should inform about stop', (done) => {
+            component.stopClicked.subscribe(() => {
+                done();
+            });
+            component.stopInterval();
         });
     });
 });

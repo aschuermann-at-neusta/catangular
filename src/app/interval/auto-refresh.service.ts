@@ -10,16 +10,26 @@ export class AutoRefreshService {
     public timeLeft$: Observable<number> = this.countdownService.count$;
 
     constructor(
-        private interval: IntervalService,
+        private intervalService: IntervalService,
         private countdownService: CountdownService) {
     }
 
     setTime(seconds: number, callback: any) {
         this.countdownService.setCount(seconds);
-        this.interval.setTime(seconds);
-        this.interval.interval$.subscribe(_ => {
+        this.intervalService.setTime(seconds);
+        this.intervalService.interval$.subscribe(_ => {
             callback();
             this.countdownService.setCount(seconds);
         });
+    }
+
+    stopRefresh() {
+        this.intervalService.stopInterval();
+        this.countdownService.stopCount();
+    }
+
+    reset() {
+        this.countdownService.reset();
+        this.intervalService.reset();
     }
 }

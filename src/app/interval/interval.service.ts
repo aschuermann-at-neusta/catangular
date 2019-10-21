@@ -6,15 +6,15 @@ import { Observable, Subject } from 'rxjs';
 })
 export class IntervalService {
 
-    constructor() {
-    }
-
     private interval: Subject<boolean> = new Subject<boolean>();
+    private seconds: number;
+
     interval$: Observable<boolean> = this.interval.asObservable();
 
     handler: any;
 
     setTime(seconds: number) {
+        this.seconds = seconds;
         this.stopInterval();
         this.handler = setInterval(() => {
             this.interval.next(true);
@@ -27,5 +27,7 @@ export class IntervalService {
         }
     }
 
-
+    reset() {
+        this.setTime(this.seconds);
+    }
 }
