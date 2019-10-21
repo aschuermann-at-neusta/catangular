@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CatImageModule } from './cat-image/cat-image.module';
+import { ShowCountdownComponent } from './interval/show-countdown/show-countdown.component';
 
 @NgModule({
     declarations: [

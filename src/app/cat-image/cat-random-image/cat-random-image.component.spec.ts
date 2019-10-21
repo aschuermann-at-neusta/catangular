@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { anything, instance, mock, verify, when } from 'ts-mockito';
 import { CatInterface, CatPublicImageService } from '../../cat-api/cat-public-image.service';
 import { AutoRefreshService } from '../../interval/auto-refresh.service';
@@ -35,22 +36,27 @@ describe('CatRandomImageComponent', () => {
     });
 
     describe('refresh image', () => {
-        it('should have a configuration', () => {
-            expect(component.config).toBeDefined();
+        it('should have a configuration', async () => {
+            const config = await component.config$.pipe(take(1)).toPromise();
+            expect(config).toBeDefined();
         });
 
-        it('should have autoRefreshActive value be false', () => {
-            expect(component.config.value.autoRefreshActive).toBe(false);
+        it('should have autoRefreshActive value be false', async () => {
+            const config = await component.config$.pipe(take(1)).toPromise();
+            expect(config.autoRefreshActive).toBe(false);
         });
 
-        it('should have a function setAutoRefreshActive', () => {
+        it('should have a function setAutoRefreshActive', async () => {
             component.setAutoRefreshActive(2);
-            expect(component.config.value.autoRefreshActive).toBe(true);
+            const config = await component.config$.pipe(take(1)).toPromise();
+            expect(config.autoRefreshActive).toBe(true);
         });
 
         it('should start the interval', () => {
             component.setAutoRefreshActive(1);
             verify(mockAutoRefreshService.setTime(1, anything())).once();
         });
+
+
     });
 });

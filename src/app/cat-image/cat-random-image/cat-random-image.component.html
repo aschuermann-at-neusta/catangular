@@ -1,5 +1,11 @@
 <h3>Random Cat</h3>
 <app-cat-refresh-button (refreshClicked)="loadGetImage()"></app-cat-refresh-button>
 <app-refresh-timer-button (newInterval)="setAutoRefreshActive($event)"></app-refresh-timer-button>
-<img [src]="randomCatImage$ | async">
+<hr/>
+<app-show-countdown
+    *ngIf="(config$ | async).autoRefreshActive"
+    [countdown]="countdown$ | async"></app-show-countdown>
+<div>
+    <img [src]="randomCatImage$ | async" style="max-width: 500px;max-height: 500px;">
+</div>
 

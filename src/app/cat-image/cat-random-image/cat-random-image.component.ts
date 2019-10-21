@@ -13,8 +13,9 @@ import { CatConfigInterface } from './cat-config-interface';
 export class CatRandomImageComponent implements OnInit {
 
     randomCatImage$: Observable<string>;
-    config: BehaviorSubject<CatConfigInterface> = new BehaviorSubject({ autoRefreshActive: false });
-    config$: Observable<CatConfigInterface> = this.config.asObservable();
+    private config: BehaviorSubject<CatConfigInterface> = new BehaviorSubject({ autoRefreshActive: false });
+    public config$: Observable<CatConfigInterface> = this.config.asObservable();
+    public countdown$: Observable<number> = this.autoRefreshService.timeLeft$;
 
     constructor(private publicRandomImgService: CatPublicImageService,
                 private autoRefreshService: AutoRefreshService) {
