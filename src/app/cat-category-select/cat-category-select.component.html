@@ -1,0 +1,5 @@
+<select (select)="select($event)">
+    <option
+        *ngFor="let catCategory of catCategories"
+        value="catCategory.id">{{ catCategory.name }}</option>
+</select>

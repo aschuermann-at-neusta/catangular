@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CatCategorySelectModule } from './cat-category-select/cat-category-select.module';
 import { CatImageModule } from './cat-image/cat-image.module';
 import { ShowCountdownComponent } from './interval/show-countdown/show-countdown.component';
 
@@ -14,7 +15,8 @@ import { ShowCountdownComponent } from './interval/show-countdown/show-countdown
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
-        CatImageModule
+        CatImageModule,
+        CatCategorySelectModule
     ],
     bootstrap: [
         AppComponent
