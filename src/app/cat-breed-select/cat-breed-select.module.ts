@@ -8,7 +8,8 @@ import { CatBreedSelectComponent } from './cat-breed-select.component';
     imports: [
         CommonModule,
         CommonSelectModule
-    ]
+    ],
+    exports: [CatBreedSelectComponent]
 })
 export class CatBreedSelectModule {
 }

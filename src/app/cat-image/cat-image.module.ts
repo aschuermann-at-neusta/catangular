@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CatBreedSelectModule } from '../cat-breed-select/cat-breed-select.module';
 import { CatCategorySelectModule } from '../cat-category-select/cat-category-select.module';
 import { ShowCountdownModule } from '../interval/show-countdown/show-countdown.module';
 import { CatRandomImageComponent } from './cat-random-image/cat-random-image.component';
@@ -15,7 +16,8 @@ import { RefreshTimerButtonComponent } from './refresh-timer-button/refresh-time
     imports: [
         CommonModule,
         ShowCountdownModule,
-        CatCategorySelectModule
+        CatCategorySelectModule,
+        CatBreedSelectModule
     ],
     exports: [
         CatRandomImageComponent

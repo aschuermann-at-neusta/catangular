@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonSelectComponent } from './common-select.component';
 
 @NgModule({
     declarations: [ CommonSelectComponent ],
     imports: [
         CommonModule,
-        MatSelectModule
+        MatSelectModule,
+        BrowserAnimationsModule
     ],
     exports: [ CommonSelectComponent ]
 })
