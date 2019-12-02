@@ -16,11 +16,6 @@ import { CatConfigInterface } from './cat-config-interface';
 export class CatRandomImageComponent implements OnInit {
 
     randomCatImage$: Observable<string>;
-    private config: BehaviorSubject<CatConfigInterface> =
-        new BehaviorSubject<CatConfigInterface>({
-            autoRefreshActive: false,
-            catCategories: []
-        });
     catCategories$: Observable<CatCategoryInterface[]>;
 
     constructor(private publicRandomImgService: CatPublicImageService,
@@ -35,7 +30,10 @@ export class CatRandomImageComponent implements OnInit {
     }
 
     loadGetImage(): void {
-        this.randomCatImage$ = this.publicRandomImgService.getOneRandomImage(this.catConfigService.getConfig())
+        this.randomCatImage$ =
+            this.publicRandomImgService.getOneRandomImage(
+                this.catConfigService.getConfig()
+            )
             .pipe(
                 map(cat => cat.url));
     }
@@ -56,6 +54,11 @@ export class CatRandomImageComponent implements OnInit {
         if (this.catConfigService.isAutorefreshActive()) {
             this.autoRefreshService.reset();
         }
+        this.loadGetImage();
+    }
+
+    selectedCategory(category: CatCategoryInterface) {
+        this.catConfigService.setCatCategories(category ? [category] : undefined);
         this.loadGetImage();
     }
 }

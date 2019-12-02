@@ -1,5 +1,6 @@
 <h3>Random Cat</h3>
-<app-cat-category-select [catCategories]="catCategories$ | async"></app-cat-category-select>
+<app-cat-category-select
+    [catCategories]="catCategories$ | async" (selected)="selectedCategory($event)"></app-cat-category-select>
 <app-cat-refresh-button (refreshClicked)="refresh()"></app-cat-refresh-button>
 <app-refresh-timer-button (newInterval)="setAutoRefreshActive($event)" (stopClicked)="setAutoRefreshInactive()"></app-refresh-timer-button>
 <hr/>

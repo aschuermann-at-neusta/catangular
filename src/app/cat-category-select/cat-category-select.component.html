@@ -1,5 +1,2 @@
-<select (select)="select($event)">
-    <option
-        *ngFor="let catCategory of catCategories"
-        value="catCategory.id">{{ catCategory.name }}</option>
-</select>
+<app-common-select [options]="catCategories" (selectedOption)="selectionChanged($event)">
+</app-common-select>

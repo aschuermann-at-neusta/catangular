@@ -1,24 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CatCategoryInterface } from '../cat-api/cat-category.interface';
-
+import { CommonSelectOptionInterface } from '../UI/common-select/common-select-option.interface';
 import { CatCategorySelectComponent } from './cat-category-select.component';
 
 describe('CatCategorySelectComponent', () => {
     let component: CatCategorySelectComponent;
     const mockCategory: CatCategoryInterface = {
-        id: 1,
-        name: 'box'
+        id: 4,
+        name: 'Boxes'
+    };
+    const option: CommonSelectOptionInterface = {
+        id: 4,
+        name: 'Boxes'
     };
 
     beforeEach(() => {
         component = new CatCategorySelectComponent();
+        component.catCategories = [mockCategory];
     });
 
-    it('should emit selected category', (done) => {
-        component.selected.subscribe(selection => {
-            expect(selection).toEqual(mockCategory);
-            done();
+    describe('selectionChanged()', () => {
+        it('should emit the category object', (done) => {
+            component.selectedCategory.subscribe((selected) => {
+                expect(selected).toEqual(mockCategory);
+                done();
+            });
+            component.selectionChanged(option);
         });
-        component.select(mockCategory);
     });
 });

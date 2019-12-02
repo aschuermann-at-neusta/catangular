@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CatCategoryInterface } from '../cat-api/cat-category.interface';
+import { CommonSelectOptionInterface } from '../UI/common-select/common-select-option.interface';
 
 @Component({
     selector: 'app-cat-category-select',
@@ -8,10 +9,10 @@ import { CatCategoryInterface } from '../cat-api/cat-category.interface';
 })
 export class CatCategorySelectComponent {
     @Input() catCategories: CatCategoryInterface[];
-    @Output() selected: EventEmitter<CatCategoryInterface> = new EventEmitter<CatCategoryInterface>();
+    @Output() selectedCategory: EventEmitter<CatCategoryInterface> = new EventEmitter<CatCategoryInterface>();
 
-    select(category: CatCategoryInterface) {
-        this.selected.emit(category);
+    selectionChanged(commonSelectOption: CommonSelectOptionInterface) {
+        this.selectedCategory.emit(commonSelectOption);
     }
 }
 

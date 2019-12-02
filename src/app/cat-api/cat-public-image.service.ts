@@ -19,7 +19,8 @@ export class CatPublicImageService {
     constructor(private httpClient: HttpClient) {
         this.validParameters.set(
             'catCategories',
-            (catCategories: CatCategoryInterface[]) => this.getCatCategoriesParameter(catCategories)
+            (catCategories: CatCategoryInterface[]) =>
+                this.getCatCategoriesParameter(catCategories)
         );
     }
 
@@ -33,8 +34,9 @@ export class CatPublicImageService {
     }
 
     private getCatCategoriesParameter(catCategories: CatCategoryInterface[]): string {
+        console.log('getCatCategoriesParameter:', catCategories);
         const mapIds = catCategories.map(catCategory => catCategory.id).join(',');
-        return `category_ids=[${mapIds}]`;
+        return `category_ids=${mapIds}`;
     }
 
     private getUrl(params: string[]) {
@@ -43,8 +45,11 @@ export class CatPublicImageService {
     }
 
     private getParamsFromConfig(catConfig: CatConfigInterface): string[] {
+        console.log('getParamsFromConfig:', catConfig);
         return Object.keys(catConfig)
-            .filter((parameterKey) => this.validParameters.has(parameterKey) && !!catConfig[ parameterKey ])
-            .map((parameterKey) => this.validParameters.get(parameterKey)(catConfig[ parameterKey ]));
+            .filter((parameterKey) =>
+                this.validParameters.has(parameterKey) && !!catConfig[ parameterKey ])
+            .map((parameterKey) =>
+                this.validParameters.get(parameterKey)(catConfig[ parameterKey ]));
     }
 }

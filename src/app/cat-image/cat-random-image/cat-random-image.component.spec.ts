@@ -1,6 +1,6 @@
 import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { anything, instance, mock, verify, when } from 'ts-mockito';
+import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { CatCategoryInterface } from '../../cat-api/cat-category.interface';
 import { CatCategoryService } from '../../cat-api/cat-category.service';
 import { CatInterface, CatPublicImageService } from '../../cat-api/cat-public-image.service';
@@ -32,11 +32,12 @@ describe('CatRandomImageComponent', () => {
     const mockCatUrl = 'fdlkjgrdlfkgj';
     const mockCat: CatInterface = { url: mockCatUrl };
     const mockCatImageSubject: Subject<CatInterface> = new Subject<CatInterface>();
+    const mockCatCategory1 = {
+        id: 1,
+        name: 'one'
+    };
     const mockCatCategories: CatCategoryInterface[] = [
-        {
-            id: 1,
-            name: 'one'
-        },
+        mockCatCategory1,
         {
             id: 2,
             name: 'two'
@@ -125,6 +126,36 @@ describe('CatRandomImageComponent', () => {
             component.ngOnInit();
             const categories = await component.catCategories$.pipe(take(1)).toPromise();
             expect(categories).toEqual(mockCatCategories);
+        });
+
+        it('should set selected category config', () => {
+            component.selectedCategory(mockCatCategory1);
+            verify(mockCatConfigService.setCatCategories(deepEqual([ mockCatCategory1 ]))).once();
+        });
+
+        it('should load new image on category change', async () => {
+            const mockUrl = 'blac';
+
+            const mockNewCatConfig: CatConfigInterface = {
+                ...mockCatConfig,
+                catCategories: undefined
+            };
+            const mockObservable: Observable<CatInterface> = of({
+                url: mockUrl
+            } as CatInterface);
+
+            when(mockCatPublicImageService.getOneRandomImage(mockNewCatConfig)).thenReturn(mockObservable);
+            when(mockCatConfigService.getConfig()).thenReturn(mockNewCatConfig);
+
+            component.selectedCategory(mockCatCategory1);
+
+            expect(await component.randomCatImage$.pipe(take(1)).toPromise())
+                .toEqual(mockUrl);
+        });
+
+        it('should set unselected category config', () => {
+            component.selectedCategory(null);
+            verify(mockCatConfigService.setCatCategories(undefined)).once();
         });
     });
 });

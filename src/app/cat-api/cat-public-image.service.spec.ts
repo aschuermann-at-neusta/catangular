@@ -28,7 +28,7 @@ describe('CatPublicImageService', () => {
 
     describe('Cat Config', () => {
         it('should use the config parameter', () => {
-            const mockUrl = `${searchUrl}?category_ids=[4]`;
+            const mockUrl = `${searchUrl}?category_ids=4`;
             when(mockHttpClient.get(mockUrl)).thenReturn(of(mockResultBody));
             service.getOneRandomImage({
                 ...mockCatConfig,
