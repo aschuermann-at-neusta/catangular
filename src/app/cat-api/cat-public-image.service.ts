@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CatConfigInterface } from '../cat-image/cat-random-image/cat-config-interface';
+import { CatBreedInterface } from './cat-breed.interface';
 import { CatCategoryInterface } from './cat-category.interface';
 
 export interface CatInterface {
@@ -22,6 +23,11 @@ export class CatPublicImageService {
             (catCategories: CatCategoryInterface[]) =>
                 this.getCatCategoriesParameter(catCategories)
         );
+        this.validParameters.set(
+            'catBreed',
+            (catBreed: CatBreedInterface) =>
+                this.getCatBreedParameter(catBreed)
+        );
     }
 
     getOneRandomImage(catConfig: CatConfigInterface): Observable<CatInterface> {
@@ -34,9 +40,12 @@ export class CatPublicImageService {
     }
 
     private getCatCategoriesParameter(catCategories: CatCategoryInterface[]): string {
-        console.log('getCatCategoriesParameter:', catCategories);
         const mapIds = catCategories.map(catCategory => catCategory.id).join(',');
         return `category_ids=${mapIds}`;
+    }
+
+    private getCatBreedParameter(catBreed: CatBreedInterface): string {
+        return `breed_id=${catBreed.id}`;
     }
 
     private getUrl(params: string[]) {

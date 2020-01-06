@@ -28,7 +28,7 @@ describe('CatPublicImageService', () => {
     });
 
     describe('Cat Config', () => {
-        it('should use the config parameter', () => {
+        it('should use the config parameter category', () => {
             const mockUrl = `${searchUrl}?category_ids=4`;
             when(mockHttpClient.get(mockUrl)).thenReturn(of(mockResultBody));
             service.getOneRandomImage({
@@ -38,6 +38,16 @@ describe('CatPublicImageService', () => {
                 ]
             }).subscribe();
             verify(mockHttpClient.get(mockUrl)).once();
+        });
+
+        it('should use the config parameter breed', () => {
+            const mockBreedUrl = `${searchUrl}?breed_id=bengal`;
+            when(mockHttpClient.get(mockBreedUrl)).thenReturn(of(mockResultBody));
+            service.getOneRandomImage({
+                ...mockCatConfig,
+                catBreed: { id: 'bengal'}
+            }).subscribe();
+            verify(mockHttpClient.get(mockBreedUrl)).once();
         });
     });
     describe('receive images', () => {
