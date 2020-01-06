@@ -1,7 +1,7 @@
 <h3>Random Cat</h3>
 <app-cat-category-select
-    [catCategories]="catCategories$ | async" (selected)="selectedCategory($event)"></app-cat-category-select>
-<app-cat-breed-select [breeds]=""></app-cat-breed-select>
+    [catCategories]="catCategories$ | async" (selectedCategory)="selectedCategory($event)"></app-cat-category-select>
+<app-cat-breed-select [breeds]="catBreeds$ | async" (selectedBreed)="selectedBreed($event)"></app-cat-breed-select>
 <app-cat-refresh-button (refreshClicked)="refresh()"></app-cat-refresh-button>
 <app-refresh-timer-button (newInterval)="setAutoRefreshActive($event)" (stopClicked)="setAutoRefreshInactive()"></app-refresh-timer-button>
 <hr/>

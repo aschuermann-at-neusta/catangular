@@ -1,6 +1,8 @@
 import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
+import { CatBreedInterface } from '../../cat-api/cat-breed.interface';
+import { CatBreedService } from '../../cat-api/cat-breed.service';
 import { CatCategoryInterface } from '../../cat-api/cat-category.interface';
 import { CatCategoryService } from '../../cat-api/cat-category.service';
 import { CatInterface, CatPublicImageService } from '../../cat-api/cat-public-image.service';
@@ -28,6 +30,7 @@ describe('CatRandomImageComponent', () => {
     let mockAutoRefreshService: AutoRefreshService;
     let mockCatCategoryService: CatCategoryService;
     let mockCatConfigService: CatConfigService;
+    let mockCatBreedService: CatBreedService;
 
     const mockCatUrl = 'fdlkjgrdlfkgj';
     const mockCat: CatInterface = { url: mockCatUrl };
@@ -47,16 +50,29 @@ describe('CatRandomImageComponent', () => {
         catCategories: undefined
     };
 
+
+    const mockCatBreed3: CatBreedInterface = {
+        id: 3
+    } as CatBreedInterface;
+
+    const mockCatBreeds: CatBreedInterface[] = [
+        mockCatBreed3,
+        {
+            id: 4
+        } as CatBreedInterface ];
+
     beforeEach(() => {
         mockCatPublicImageService = mock(CatPublicImageService);
         mockAutoRefreshService = mock(AutoRefreshService);
         mockCatCategoryService = mock(CatCategoryService);
         mockCatConfigService = mock(CatConfigService);
+        mockCatBreedService = mock(CatBreedService);
         component = new CatRandomImageComponent(
             instance(mockCatPublicImageService),
             instance(mockAutoRefreshService),
             instance(mockCatCategoryService),
-            instance(mockCatConfigService));
+            instance(mockCatConfigService),
+            instance(mockCatBreedService));
 
         when(mockCatPublicImageService.getOneRandomImage(anything()))
             .thenReturn(mockCatImageSubject.asObservable());
@@ -64,6 +80,8 @@ describe('CatRandomImageComponent', () => {
             .thenReturn(of(mockCatCategories));
         when(mockCatConfigService.config$).thenReturn(of(mockCatConfig));
         when(mockCatConfigService.getConfig()).thenReturn(mockCatConfig);
+        when(mockCatBreedService.getAll()).thenReturn(of(mockCatBreeds));
+
     });
 
     describe('random image', () => {
@@ -157,5 +175,37 @@ describe('CatRandomImageComponent', () => {
             component.selectedCategory(null);
             verify(mockCatConfigService.setCatCategories(undefined)).once();
         });
+    });
+
+    describe('Cat Breeds', () => {
+        it('should load cat breeds on init', async () => {
+            component.ngOnInit();
+            const breeds = await component.catBreeds$.pipe(take(1)).toPromise();
+            expect(breeds).toEqual(mockCatBreeds);
+        });
+
+        it('should set selected breed config', () => {
+            component.selectedBreed(mockCatBreed3);
+            verify(mockCatConfigService.setCatBreed(deepEqual( mockCatBreed3 ))).once();
+        });
+
+        it('should load new image when breed is selected', async () => {
+            const mockUrl = 'blac';
+
+            const mockNewCatConfig: CatConfigInterface = {
+                ...mockCatConfig
+            };
+            const mockObservable: Observable<CatInterface> = of({
+                url: mockUrl
+            } as CatInterface);
+
+            when(mockCatPublicImageService.getOneRandomImage(mockNewCatConfig)).thenReturn(mockObservable);
+            when(mockCatConfigService.getConfig()).thenReturn(mockNewCatConfig);
+
+            component.selectedBreed(mockCatBreed3);
+
+            expect(await component.randomCatImage$.pipe(take(1)).toPromise()).toEqual(mockUrl);
+        });
+
     });
 });

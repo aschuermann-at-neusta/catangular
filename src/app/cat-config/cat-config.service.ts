@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CatBreedInterface } from '../cat-api/cat-breed.interface';
 import { CatCategoryInterface } from '../cat-api/cat-category.interface';
 import { CatConfigInterface } from '../cat-image/cat-random-image/cat-config-interface';
 
@@ -9,7 +10,8 @@ import { CatConfigInterface } from '../cat-image/cat-random-image/cat-config-int
 export class CatConfigService {
     private config: BehaviorSubject<CatConfigInterface> = new BehaviorSubject<CatConfigInterface>({
         autoRefreshActive: false,
-        catCategories: undefined
+        catCategories: undefined,
+        catBreed: undefined
     });
     public config$: Observable<CatConfigInterface> = this.config.asObservable();
 
@@ -30,5 +32,9 @@ export class CatConfigService {
 
     getConfig(): CatConfigInterface {
         return this.config.value;
+    }
+
+    setCatBreed(catBreedInterface: CatBreedInterface) {
+        this.config.next({...this.config.value, catBreed: catBreedInterface});
     }
 }

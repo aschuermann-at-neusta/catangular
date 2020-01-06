@@ -9,7 +9,8 @@ describe('CatPublicImageService', () => {
     let mockHttpClient: HttpClient;
     const mockCatConfig: CatConfigInterface = {
         autoRefreshActive: false,
-        catCategories: undefined
+        catCategories: undefined,
+        catBreed: undefined
     };
     const searchUrl = 'https://api.thecatapi.com/v1/images/search';
     const cat1 = { url: 'rth5dh' } as CatInterface;

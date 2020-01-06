@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CatBreedInterface } from '../../cat-api/cat-breed.interface';
+import { CatBreedService } from '../../cat-api/cat-breed.service';
 import { CatCategoryInterface } from '../../cat-api/cat-category.interface';
 import { CatCategoryService } from '../../cat-api/cat-category.service';
 import { CatPublicImageService } from '../../cat-api/cat-public-image.service';
@@ -17,16 +19,19 @@ export class CatRandomImageComponent implements OnInit {
 
     randomCatImage$: Observable<string>;
     catCategories$: Observable<CatCategoryInterface[]>;
+    catBreeds$: Observable<CatBreedInterface[]>;
 
     constructor(private publicRandomImgService: CatPublicImageService,
                 private autoRefreshService: AutoRefreshService,
                 private catCategoryService: CatCategoryService,
-                private catConfigService: CatConfigService) {
+                private catConfigService: CatConfigService,
+                private catBreedsService: CatBreedService) {
     }
 
     ngOnInit() {
         this.loadGetImage();
         this.catCategories$ = this.catCategoryService.getAll();
+        this.catBreeds$ = this.catBreedsService.getAll();
     }
 
     loadGetImage(): void {
@@ -58,7 +63,13 @@ export class CatRandomImageComponent implements OnInit {
     }
 
     selectedCategory(category: CatCategoryInterface) {
+        console.log('category: ', category);
         this.catConfigService.setCatCategories(category ? [category] : undefined);
+        this.loadGetImage();
+    }
+
+    selectedBreed(breed: CatBreedInterface) {
+        this.catConfigService.setCatBreed(breed);
         this.loadGetImage();
     }
 }

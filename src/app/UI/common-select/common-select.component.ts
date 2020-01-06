@@ -20,7 +20,10 @@ export class CommonSelectComponent implements OnInit {
     }
 
     selectionChanged(selected: MatSelectChange) {
-        const selectValue = this.options.find((option) => option.id === selected.value);
+        const selectValue =
+            this.options
+            && this.options.find(
+                (option) => option.id === selected.value);
         this.selectedOption.emit(selectValue);
     }
 
